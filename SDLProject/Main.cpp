@@ -1,4 +1,6 @@
 #include "SDL.h"
+#include <iostream>
+
 #undef main
 
 int main(int argc, char* argv)
@@ -14,6 +16,8 @@ int main(int argc, char* argv)
 	SDL_RenderPresent(renderer);
 
 	SDL_Delay(2000);
+
+	std::cout << "Hello world" << std::endl;
 
 	return 0;
 }
