@@ -2,9 +2,12 @@
 #ifndef Game_h
 #define Game_h
 
-#include "SDL.h"
 #include <iostream>
 #include <vector>
+
+#include "SDL.h"
+#include "Board.h"
+
 
 class Game {
 
@@ -22,22 +25,15 @@ public:
 
 	void clean();
 
-	void initQuad(std::vector<std::vector<int>>& quad);
-
-	void updateQuad(std::vector<std::vector<int>>& quad);
-
-	void renderQuad(SDL_Renderer* renderer, std::vector<std::vector<int>> quad);
-
 	bool running() { return isRunning; }
 
 private:
 	int width, height;
 
 	bool isRunning;
+	Board* board;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	std::vector<std::vector<int>> quad;
-
 };
 
 

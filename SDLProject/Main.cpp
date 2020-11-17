@@ -4,13 +4,15 @@
 
 #undef main
 
-Game* game = nullptr;
+int GAME_WIDTH = 750;
+int GAME_HEIGHT = 750;
 
+Game* game = nullptr;
 
 int main(int argc, char* argv)
 {
 	game = new Game();
-	game->init("Quad Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	game->init("Gomoku", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, false);
 
 	while (game->running())
 	{
