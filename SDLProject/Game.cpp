@@ -61,9 +61,7 @@ void Game::handleEvents()
 		switch (event.button.button)
 		{
 		case SDL_BUTTON_LEFT:
-			board->addPiece(event.motion.x, event.motion.y);
-			board->switchPlayers();
-			std::cout << "Left clicked at " << event.motion.x << ", " << event.motion.y << std::endl;
+			board->attemptAdd(event.motion.x, event.motion.y);
 			break;
 		default:
 			break;
@@ -76,7 +74,10 @@ void Game::handleEvents()
 
 void Game::update()
 {
-
+	if (board->getWinner() != 0)
+	{
+		stopGame();
+	}
 }
 
 void Game::render()
@@ -93,4 +94,9 @@ void Game::clean()
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	std::cout << "Game has been cleaned..." << std::endl;
+}
+
+void Game::stopGame()
+{
+	isRunning = false;
 }

@@ -19,13 +19,15 @@ public:
 
 	void handleEvents();
 
-	void update();
-
 	void render();
+
+	void update();
 
 	void clean();
 
 	bool running() { return isRunning; }
+
+	void stopGame();
 
 private:
 	int width, height;
