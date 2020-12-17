@@ -24,7 +24,6 @@ public:
 	void addPiece(int mouseX, int mouseY);
 
 	void renderBoard(SDL_Renderer* renderer);
-	bool winState();
 
 	bool checkNextSpace(int colIndex, int rowIndex, Square color, int colDelta, int rowDelta, int count);
 	Square informedWinState(int colIndex, int rowIndex, Square color);

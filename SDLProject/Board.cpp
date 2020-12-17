@@ -150,13 +150,16 @@ void Board::renderBoard(SDL_Renderer* renderer)
 	}
 }
 
-//	This searches for any 5 of the same piece in a row.
-bool Board::winState()
-{
-	return false;
-}
-
-//	Used for directional checking
+/*	Used for directional checking
+ *	TODO: edge case of placing stone in middle of 4 consecutive pieces for win condition
+ * @param {colIndex}	- column index	of the added stone
+ * @param {rowIndex}	- row index		of the added stone
+ * @param {color}		- color			of the added stone
+ * @param {colDelta}	- the direction to check the next horizontal space, should only take -1 or 1
+ * @param {rowDelta}	- the direction to check the next vertical space, should only take -1 or 1
+ * @param {count}		- counter used to recursively check the same direction for 5 stones in a row
+ * @returns				- true for 5 in a row found, false otherwise.
+ */
 bool Board::checkNextSpace(int colIndex, int rowIndex, Square color, int colDelta, int rowDelta, int count)
 {
 	// Out of bounds checking
@@ -169,6 +172,7 @@ bool Board::checkNextSpace(int colIndex, int rowIndex, Square color, int colDelt
 	if (boardState[colIndex + colDelta][rowIndex + rowDelta] == color)
 	{
 		count++;
+
 		if (count >= 5)
 		{
 			return true;
