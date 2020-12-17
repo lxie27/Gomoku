@@ -90,7 +90,6 @@ bool Board::attemptAdd(int mouseX, int mouseY)
 		else
 		{
 			winner = getCurrentPlayer();
-			std::cout << "winner set to: " << winner << std::endl;
 		}
 		return true;
 	}
