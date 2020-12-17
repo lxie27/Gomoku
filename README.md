@@ -3,5 +3,7 @@ This is a learning project to refine C++ fundamentals, learn more about SDL2, an
 
 ## Current features:
 15x15 board for Gomoku
+
 Working pass and play - black always starts.
+
 Upon 5 in a row in any direction, the game ends.
