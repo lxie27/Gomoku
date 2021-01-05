@@ -149,37 +149,63 @@ void Board::renderBoard(SDL_Renderer* renderer)
 	}
 }
 
-/*	Used for directional checking
- *	TODO: edge case of placing stone in middle of 4 consecutive pieces for win condition
+/*	Used for one-directional checking
  * @param {colIndex}	- column index	of the added stone
  * @param {rowIndex}	- row index		of the added stone
  * @param {color}		- color			of the added stone
  * @param {colDelta}	- the direction to check the next horizontal space, should only take -1 or 1
  * @param {rowDelta}	- the direction to check the next vertical space, should only take -1 or 1
  * @param {count}		- counter used to recursively check the same direction for 5 stones in a row
- * @returns				- true for 5 in a row found, false otherwise.
+ * @returns				- largest consecutive amount of same-colored pieces
  */
-bool Board::checkNextSpace(int colIndex, int rowIndex, Square color, int colDelta, int rowDelta, int count)
+int Board::checkNextSpace(int colIndex, int rowIndex, Square color, int colDelta, int rowDelta, int count)
 {
+	if (color == BLACK)
+	{
+		//std::cout << "Checking:" << colIndex << ", " << rowIndex << std::endl;
+	}
 	// Out of bounds checking
 	if (colIndex + colDelta >= 14 || colIndex + colDelta < 0 || 
 		rowIndex + rowDelta >= 14 || rowIndex + rowDelta < 0)
 	{
-		return false;
+		return count;
 	}
 
+	// Check the next square for matching color square
 	if (boardState[colIndex + colDelta][rowIndex + rowDelta] == color)
 	{
 		count++;
 
 		if (count >= 5)
 		{
-			return true;
+			return count;
 		}
+		// On fail, proceed to next square using index + deltas
 		else
 		{
 			return checkNextSpace(colIndex + colDelta, rowIndex + rowDelta, color, colDelta, rowDelta, count);
 		}
+	}
+	else
+	{
+		return count;
+	}
+}
+
+/*	Essentially a wrapper function for bi-directional checking
+ * @param {colIndex}	- column index	of the added stone
+ * @param {rowIndex}	- row index		of the added stone
+ * @param {color}		- color			of the added stone
+ * @param {colDelta}	- the direction to check the next horizontal space, should only take -1 or 1
+ * @param {rowDelta}	- the direction to check the next vertical space, should only take -1 or 1
+ * @returns				- if there are 5-in-a-row from the inputted colIndex, rowIndex
+ */
+bool Board::checkBothDirections(int colIndex, int rowIndex, Square color, int colDelta, int rowDelta)
+{
+	if (checkNextSpace(colIndex, rowIndex, color, colDelta, rowDelta, 1)
+		+ checkNextSpace(colIndex, rowIndex, color, -colDelta, -rowDelta, 0) >= 5)
+	{
+		return true;
 	}
 	else
 	{
@@ -189,14 +215,10 @@ bool Board::checkNextSpace(int colIndex, int rowIndex, Square color, int colDelt
 //	This search for any 5 in the same piece in a row when aware of last stone's position and color
 Square Board::informedWinState(int colIndex, int rowIndex, Square color)
 {
-	if (checkNextSpace(colIndex, rowIndex, color, -1, 0, 1)	// left
-		|| checkNextSpace(colIndex, rowIndex, color, 1, 0, 1)	// right
-		|| checkNextSpace(colIndex, rowIndex, color, 0, 1, 1)	// down
-		|| checkNextSpace(colIndex, rowIndex, color, 0, -1, 1)	// up
-		|| checkNextSpace(colIndex, rowIndex, color, -1, 1, 1)	// leftdown
-		|| checkNextSpace(colIndex, rowIndex, color, 1, 1, 1)	// rightdown
-		|| checkNextSpace(colIndex, rowIndex, color, -1, -1, 1)	// leftup
-		|| checkNextSpace(colIndex, rowIndex, color, 1, -1, 1))	// rightup
+	if (checkBothDirections(colIndex, rowIndex, color, -1, 0)	// left & right
+		|| checkBothDirections(colIndex, rowIndex, color, 0, 1)	// down & up
+		|| checkBothDirections(colIndex, rowIndex, color, -1, 1)	// leftdown & rightup
+		|| checkBothDirections(colIndex, rowIndex, color, 1, 1))	// rightdown & leftup
 	{
 		return color;
 	}
@@ -205,7 +227,4 @@ Square Board::informedWinState(int colIndex, int rowIndex, Square color)
 	{
 		return EMPTY;
 	}
-		
-
-
 }

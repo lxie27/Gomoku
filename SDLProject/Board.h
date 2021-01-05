@@ -25,7 +25,8 @@ public:
 
 	void renderBoard(SDL_Renderer* renderer);
 
-	bool checkNextSpace(int colIndex, int rowIndex, Square color, int colDelta, int rowDelta, int count);
+	int checkNextSpace(int colIndex, int rowIndex, Square color, int colDelta, int rowDelta, int count);
+	bool checkBothDirections(int colIndex, int rowIndex, Square color, int colDelta, int rowDelta);
 	Square informedWinState(int colIndex, int rowIndex, Square color);
 
 private:
