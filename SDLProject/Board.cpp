@@ -77,17 +77,14 @@ void Board::putPiece(int colIndex, int rowIndex)
 */
 bool Board::attemptAdd(int mouseX, int mouseY)
 {
+	std::cout << "Attempted move at " << mouseX << ", " << mouseY << std::endl;
 	int xIndex = mouseX / 50;
 	int yIndex = mouseY / 50;
 
 	if (isOpenSpot(xIndex, yIndex) == true)
 	{
 		addPiece(mouseX, mouseY);
-		if (informedWinState(xIndex, yIndex, getCurrentPlayer()) == EMPTY)
-		{
-			switchPlayers();
-		}
-		else
+		if (informedWinState(xIndex, yIndex, getCurrentPlayer()) != EMPTY)
 		{
 			winner = getCurrentPlayer();
 		}
@@ -212,7 +209,13 @@ bool Board::checkBothDirections(int colIndex, int rowIndex, Square color, int co
 		return false;
 	}
 }
-//	This search for any 5 in the same piece in a row when aware of last stone's position and color
+/*	This searches for any 5 in the same piece in a row when aware of last stone's position and color
+ * @param {colIndex}	- column index	of the added stone
+ * @param {rowIndex}	- row index		of the added stone
+ * @param {color}		- color			of the added stone
+ * @returns				- The color of the player who won, or EMPTY if no winner yet.
+ *
+ */
 Square Board::informedWinState(int colIndex, int rowIndex, Square color)
 {
 	if (checkBothDirections(colIndex, rowIndex, color, -1, 0)	// left & right

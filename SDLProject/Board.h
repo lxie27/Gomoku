@@ -13,10 +13,14 @@ public:
 	Board();
 	~Board();
 
+	//	Board always initialize 15x15 empty squares
+	Square boardState[15][15] = { EMPTY };
+
 	Square getWinner();
 
 	void switchPlayers();
 	Square getCurrentPlayer();
+
 	bool isOpenSpot(int colIndex, int rowIndex);
 
 	void putPiece(int colIndex, int rowIndex);
@@ -32,6 +36,6 @@ public:
 private:
 	//	Currrent player's turn, defaults to BLACK
 	Square currentPlayer = BLACK;
-	Square boardState[15][15] = { EMPTY };
+	
 	Square winner = EMPTY;
 };

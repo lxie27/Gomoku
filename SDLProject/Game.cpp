@@ -5,6 +5,7 @@
 Game::Game()
 {
 	board = new Board;
+	ai = new AI;
 }
 
 Game::~Game()
@@ -61,7 +62,10 @@ void Game::handleEvents()
 		switch (event.button.button)
 		{
 		case SDL_BUTTON_LEFT:
-			board->attemptAdd(event.motion.x, event.motion.y);
+			if (board->attemptAdd(event.motion.x, event.motion.y))
+			{
+				board->switchPlayers();
+			}
 			break;
 		default:
 			break;
@@ -77,6 +81,13 @@ void Game::update()
 	if (board->getWinner() != 0)
 	{
 		stopGame();
+	}
+
+	if (board->getCurrentPlayer() == WHITE)
+	{
+		std::pair<int, int> attemptedAIMove = ai->makeMove(board->boardState);
+		board->attemptAdd(attemptedAIMove.first, attemptedAIMove.second);
+		board->switchPlayers();
 	}
 }
 

@@ -7,6 +7,8 @@
 
 #include "SDL.h"
 #include "Board.h"
+#include "AI.h"
+
 
 
 class Game {
@@ -34,6 +36,7 @@ private:
 
 	bool isRunning;
 	Board* board;
+	AI* ai;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 };

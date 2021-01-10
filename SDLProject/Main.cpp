@@ -12,7 +12,7 @@ Game* game = nullptr;
 int main(int argc, char* argv)
 {
 	game = new Game();
-	game->init("Gomoku", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, false);
+	game->init("Gomoku with AI", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, false);
 
 	while (game->running())
 	{
